@@ -28,4 +28,10 @@ class FibonacciTest {
         Long result = fibonacci.getFibonacciResult(3);
         assert (result.equals(2L));
     }
+
+    @Test
+    public void should_return_1_when_calculate_give_position_is_4() {
+        Long result = fibonacci.getFibonacciResult(4);
+        assert (result.equals(3L));
+    }
 }
