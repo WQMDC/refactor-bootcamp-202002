@@ -40,4 +40,10 @@ class FibonacciTest {
         Long result = fibonacci.getFibonacciResult(5);
         assert (result.equals(5L));
     }
+
+    @Test
+    public void should_return_1_when_calculate_give_position_is_50() {
+        Long result = fibonacci.getFibonacciResult(50);
+        assert (result.equals(12586269025L));
+    }
 }
