@@ -34,4 +34,10 @@ class FibonacciTest {
         Long result = fibonacci.getFibonacciResult(4);
         assert (result.equals(3L));
     }
+
+    @Test
+    public void should_return_1_when_calculate_give_position_is_5() {
+        Long result = fibonacci.getFibonacciResult(5);
+        assert (result.equals(5L));
+    }
 }
