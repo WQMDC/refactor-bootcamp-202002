@@ -8,11 +8,11 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
-class OrderReceiptTest {
+class OrderInfoReceiptTest {
     @Test
     void shouldPrintCustomerInformationOnOrder() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>());
-        OrderReceipt receipt = new OrderReceipt(order);
+        OrderInfo orderInfo = new OrderInfo("Mr X", "Chicago, 60601", new ArrayList<Goods>());
+        OrderReceipt receipt = new OrderReceipt(orderInfo);
 
         String output = receipt.printReceipt();
 
@@ -23,12 +23,12 @@ class OrderReceiptTest {
 
     @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("milk", 10.0, 2));
-            add(new LineItem("biscuits", 5.0, 5));
-            add(new LineItem("chocolate", 20.0, 1));
+        List<Goods> goods = new ArrayList<Goods>() {{
+            add(new Goods("milk", 10.0, 2));
+            add(new Goods("biscuits", 5.0, 5));
+            add(new Goods("chocolate", 20.0, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
+        OrderReceipt receipt = new OrderReceipt(new OrderInfo(null, null, goods));
 
         String output = receipt.printReceipt();
 

@@ -8,10 +8,10 @@ package cc.xpbootcamp.warmup.cashier;
  *
  */
 public class OrderReceipt {
-    private Order order;
+    private OrderInfo orderInfo;
 
-    public OrderReceipt(Order order) {
-        this.order = order;
+    public OrderReceipt(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
     public String printReceipt() {
@@ -22,29 +22,29 @@ public class OrderReceipt {
 
         // print date, bill no, customer name
 //        output.append("Date - " + order.getDate();
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
+        output.append(orderInfo.getCustomerName());
+        output.append(orderInfo.getCustomerAddress());
 //        output.append(order.getCustomerLoyaltyNumber());
 
         // prints lineItems
         double totSalesTx = 0d;
         double tot = 0d;
-        for (LineItem lineItem : order.getLineItems()) {
-            output.append(lineItem.getDescription());
+        for (Goods goods : orderInfo.getGoodsList()) {
+            output.append(goods.getDescription());
             output.append('\t');
-            output.append(lineItem.getPrice());
+            output.append(goods.getPrice());
             output.append('\t');
-            output.append(lineItem.getQuantity());
+            output.append(goods.getQuantity());
             output.append('\t');
-            output.append(lineItem.totalAmount());
+            output.append(goods.totalAmount());
             output.append('\n');
 
             // calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
+            double salesTax = goods.totalAmount() * .10;
             totSalesTx += salesTax;
 
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            tot += lineItem.totalAmount() + salesTax;
+            tot += goods.totalAmount() + salesTax;
         }
 
         // prints the state tax
