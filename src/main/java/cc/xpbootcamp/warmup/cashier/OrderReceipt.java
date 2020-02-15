@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.util.List;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -21,39 +23,60 @@ public class OrderReceipt {
 
         printCustomerInfo(output);
 
-        // prints lineItems
-        double totalSalesTax = 0d;
-        double totalAmount = 0d;
-        for (Goods goods : orderInfo.getGoodsList()) {
-            printGoodsInfo(output, goods);
+        List<Goods> goodsList = orderInfo.getGoodsList();
+        printGoodsInfo(output, goodsList);
+        pintTotalSalesTax(output, goodsList);
 
-            // calculate sales tax @ rate of 10%
-            double salesTax = goods.totalAmount() * .10;
-            totalSalesTax += salesTax;
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-            totalAmount += goods.totalAmount() + salesTax;
-        }
-
-        output.append("Sales Tax").append('\t').append(totalSalesTax);
-
-        output.append("Total Amount").append('\t').append(totalAmount);
+        printTotalAmount(output, goodsList);
         return output.toString();
     }
 
-    private void printGoodsInfo(StringBuilder output, Goods goods) {
-        output.append(goods.getDescription());
-        output.append('\t');
-        output.append(goods.getPrice());
-        output.append('\t');
-        output.append(goods.getQuantity());
-        output.append('\t');
-        output.append(goods.totalAmount());
-        output.append('\n');
+    private void printGoodsInfo(StringBuilder output, List<Goods> goodsList) {
+        for (Goods goods : goodsList) {
+            output.append(goods.getDescription());
+            output.append('\t');
+            output.append(goods.getPrice());
+            output.append('\t');
+            output.append(goods.getQuantity());
+            output.append('\t');
+            output.append(goods.totalAmount());
+            output.append('\n');
+        }
+    }
+
+    private void printTotalAmount(StringBuilder output, List<Goods> goodsList) {
+        double totalAmount = getTotalAmount(goodsList);
+        output.append("Total Amount").append('\t').append(totalAmount);
+    }
+
+    private void pintTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
+        double totalSalesTax = getGoodsTotalSalesTax(goodsList);
+        output.append("Sales Tax").append('\t').append(totalSalesTax);
     }
 
     private void printCustomerInfo(StringBuilder output) {
         output.append(orderInfo.getCustomerName());
         output.append(orderInfo.getCustomerAddress());
+    }
+
+    private double getGoodsTotalSalesTax(List<Goods> goodsList) {
+        double totalSalesTax = 0d;
+        for (Goods goods : goodsList) {
+            totalSalesTax += getGoodsSalesTax(goods.totalAmount());
+        }
+        return totalSalesTax;
+    }
+
+    private double getGoodsSalesTax(double totalAmount) {
+        return totalAmount * .10;
+    }
+
+    private double getTotalAmount(List<Goods> goodsList) {
+        double totalAmount = 0d;
+        for (Goods goods : goodsList) {
+            double salesTax = getGoodsSalesTax(goods.totalAmount());
+            totalAmount += goods.totalAmount() +  salesTax;
+        }
+        return  totalAmount;
     }
 }
