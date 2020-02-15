@@ -13,7 +13,13 @@ class FibonacciTest {
 
     @Test
     public void should_return_1_when_calculate_given_position_is_1() {
-        Long result = fibonacci.getFibonacciResult(1L);
+        Long result = fibonacci.getFibonacciResult(1);
+        assert (result.equals(1L));
+    }
+
+    @Test
+    public void should_return_1_when_calculate_give_position_is_2() {
+        Long result = fibonacci.getFibonacciResult(2);
         assert (result.equals(1L));
     }
 }

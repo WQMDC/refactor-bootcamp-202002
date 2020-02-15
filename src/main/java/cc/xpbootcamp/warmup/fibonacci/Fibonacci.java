@@ -2,7 +2,7 @@ package cc.xpbootcamp.warmup.fibonacci;
 
 public class Fibonacci {
 
-    public Long getFibonacciResult(Long param) {
+    public Long getFibonacciResult(int index) {
         return 1L;
     }
 }
