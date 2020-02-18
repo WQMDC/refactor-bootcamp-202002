@@ -12,7 +12,9 @@ import java.util.List;
  *
  */
 public class OrderReceipt {
-    private String title = "======老王超市，值得信赖======";
+    private static final String TITLE = "======老王超市，值得信赖======";
+    private static final String TOTAL_AMOUNT = "总价";
+    private static final String TOTAL_TAX = "税额";
     private OrderInfo orderInfo;
     private Date receiptDate;
 
@@ -24,12 +26,14 @@ public class OrderReceipt {
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        output.append(title + "\n");
+        output.append(TITLE + "\n");
 
         printTodayInformation(output);
+        output.append("\n");
 
         List<Goods> goodsList = orderInfo.getGoodsList();
         printGoodsInfo(output, goodsList);
+
         pintTotalSalesTax(output, goodsList);
 
         printTotalAmount(output, goodsList);
@@ -50,12 +54,10 @@ public class OrderReceipt {
 
     private void printGoodsInfo(StringBuilder output, List<Goods> goodsList) {
         for (Goods goods : goodsList) {
-            output.append(goods.getDescription());
-            output.append('\t');
-            output.append(goods.getPrice());
-            output.append('\t');
-            output.append(goods.getQuantity());
-            output.append('\t');
+            output.append(goods.getName() + "，");
+            output.append("\t");
+            output.append(goods.getPrice() + "x" + goods.getQuantity() + "，");
+            output.append("\t");
             output.append(goods.totalAmount());
             output.append('\n');
         }
@@ -63,12 +65,12 @@ public class OrderReceipt {
 
     private void printTotalAmount(StringBuilder output, List<Goods> goodsList) {
         double totalAmount = getTotalAmount(goodsList);
-        output.append("Total Amount").append('\t').append(totalAmount);
+        output.append(TOTAL_AMOUNT + "：").append(totalAmount);
     }
 
     private void pintTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
         double totalSalesTax = getGoodsTotalSalesTax(goodsList);
-        output.append("Sales Tax").append('\t').append(totalSalesTax);
+        output.append(TOTAL_TAX + "：").append(totalSalesTax);
     }
 
     private double getGoodsTotalSalesTax(List<Goods> goodsList) {

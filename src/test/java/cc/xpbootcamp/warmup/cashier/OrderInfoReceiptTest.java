@@ -15,19 +15,17 @@ class OrderInfoReceiptTest {
     @Test
     public void shouldPrintLineItemAndSalesTaxInformation() {
         List<Goods> goods = new ArrayList<Goods>() {{
-            add(new Goods("milk", 10.0, 2));
-            add(new Goods("biscuits", 5.0, 5));
-            add(new Goods("chocolate", 20.0, 1));
+            add(new Goods("巧克力", 21.5, 2));
+            add(new Goods("小白菜", 10.00, 1));
         }};
         OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), new Date());
 
         String output = receipt.printReceipt();
 
-        assertThat(output, containsString("milk\t10.0\t2\t20.0\n"));
-        assertThat(output, containsString("biscuits\t5.0\t5\t25.0\n"));
-        assertThat(output, containsString("chocolate\t20.0\t1\t20.0\n"));
-        assertThat(output, containsString("Sales Tax\t6.5"));
-        assertThat(output, containsString("Total Amount\t71.5"));
+        assertThat(output, containsString("巧克力，\t21.5x2，\t43.0\n"));
+        assertThat(output, containsString("小白菜，\t10.0x1，\t10.0\n"));
+        assertThat(output, containsString("税额：5.3"));
+        assertThat(output, containsString("总价：58.3"));
     }
 
     @Test
