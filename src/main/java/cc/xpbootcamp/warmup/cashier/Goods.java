@@ -24,7 +24,7 @@ public class Goods {
 		return quantity;
 	}
 
-    double totalAmount() {
+    double getTotalAmount() {
         return price * quantity;
     }
 }

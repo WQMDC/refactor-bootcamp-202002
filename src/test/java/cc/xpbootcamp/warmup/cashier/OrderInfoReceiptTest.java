@@ -13,12 +13,13 @@ import static org.hamcrest.Matchers.containsString;
 
 class OrderInfoReceiptTest {
     @Test
-    public void shouldPrintLineItemAndSalesTaxInformation() {
+    public void shouldPrintLineItemAndSalesTaxInformation() throws ParseException {
+        Date today = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-18");
         List<Goods> goods = new ArrayList<Goods>() {{
             add(new Goods("巧克力", 21.5, 2));
             add(new Goods("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), new Date());
+        OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), today);
 
         String output = receipt.printReceipt();
 
@@ -30,14 +31,31 @@ class OrderInfoReceiptTest {
 
     @Test
     public void shouldPrintTodayInformation() throws ParseException {
-        String today = "2020年02月19日，星期三";
+        String today = "2020年02月18日，星期二";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         OrderInfo orderInfo = new OrderInfo(new ArrayList<Goods>());
-        OrderReceipt orderReceipt = new OrderReceipt(orderInfo, format.parse("2020-02-19"));
+        OrderReceipt orderReceipt = new OrderReceipt(orderInfo, format.parse("2020-02-18"));
         String output = orderReceipt.printReceipt();
 
         assertThat(output, containsString(today));
     }
 
+    @Test
+    public void shouldCalculateDiscount() throws ParseException {
+        Date today = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-19");
+        List<Goods> goods = new ArrayList<Goods>() {{
+            add(new Goods("巧克力", 21.5, 2));
+            add(new Goods("小白菜", 10.00, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), today);
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("巧克力，\t21.5x2，\t43.0\n"));
+        assertThat(output, containsString("小白菜，\t10.0x1，\t10.0\n"));
+        assertThat(output, containsString("税额：5.3"));
+        assertThat(output, containsString("折扣：1.17"));
+        assertThat(output, containsString("总价：57.13"));
+    }
 }
