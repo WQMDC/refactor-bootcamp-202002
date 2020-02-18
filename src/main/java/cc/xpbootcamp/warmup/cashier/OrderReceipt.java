@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,18 +12,21 @@ import java.util.List;
  *
  */
 public class OrderReceipt {
+    private String title = "======老王超市，值得信赖======";
     private OrderInfo orderInfo;
+    private Date receiptDate;
 
-    public OrderReceipt(OrderInfo orderInfo) {
+    public OrderReceipt(OrderInfo orderInfo, Date receiptDate) {
         this.orderInfo = orderInfo;
+        this.receiptDate = receiptDate;
     }
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        output.append("======老王超市，值得信赖======\n");
+        output.append(title + "\n");
 
-        printCustomerInfo(output);
+        printTodayInformation(output);
 
         List<Goods> goodsList = orderInfo.getGoodsList();
         printGoodsInfo(output, goodsList);
@@ -29,6 +34,18 @@ public class OrderReceipt {
 
         printTotalAmount(output, goodsList);
         return output.toString();
+    }
+
+    private void printTodayInformation(StringBuilder output) {
+        output.append(getToday() + "，" + getWeek());
+    }
+
+    private String getWeek() {
+        return new SimpleDateFormat("EEEE").format(receiptDate);
+    }
+
+    private String getToday() {
+        return new SimpleDateFormat("yyyy年MM月dd日").format(receiptDate);
     }
 
     private void printGoodsInfo(StringBuilder output, List<Goods> goodsList) {
@@ -52,11 +69,6 @@ public class OrderReceipt {
     private void pintTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
         double totalSalesTax = getGoodsTotalSalesTax(goodsList);
         output.append("Sales Tax").append('\t').append(totalSalesTax);
-    }
-
-    private void printCustomerInfo(StringBuilder output) {
-        output.append(orderInfo.getCustomerName());
-        output.append(orderInfo.getCustomerAddress());
     }
 
     private double getGoodsTotalSalesTax(List<Goods> goodsList) {
