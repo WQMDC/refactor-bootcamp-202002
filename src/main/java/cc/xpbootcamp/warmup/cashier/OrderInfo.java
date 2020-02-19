@@ -9,10 +9,6 @@ public class OrderInfo {
         this.goodsList = goodsList;
     }
 
-    public List<Goods> getGoodsList() {
-        return goodsList;
-    }
-
     public double getTotalAmount() {
         double goodsTotalAmount = getGoodsTotalAmount();
 
