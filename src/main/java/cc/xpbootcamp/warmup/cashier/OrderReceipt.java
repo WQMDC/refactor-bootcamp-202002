@@ -10,7 +10,6 @@ import java.util.Locale;
  * price and amount. It also calculates the sales tax @ 10% and prints as part
  * of order. It computes the total order amount (amount of individual lineItems +
  * total sales tax) and prints it.
- *
  */
 public class OrderReceipt {
     private static final String TITLE = "======老王超市，值得信赖======";
@@ -67,12 +66,16 @@ public class OrderReceipt {
 
     private void printGoodsInfo(StringBuilder output, List<Goods> goodsList) {
         for (Goods goods : goodsList) {
-            output.append(goods.getName() + "，");
-            output.append("\t");
-            output.append(goods.getPrice() + "x" + goods.getQuantity() + "，");
-            output.append("\t");
-            output.append(goods.getTotalAmount());
-            output.append('\n');
+            output.append(goods.getName())
+                    .append("，")
+                    .append("\t")
+                    .append(goods.getPrice())
+                    .append("x")
+                    .append(goods.getQuantity())
+                    .append("，")
+                    .append("\t")
+                    .append(goods.getTotalAmount())
+                    .append("\n");
         }
     }
 
@@ -104,10 +107,10 @@ public class OrderReceipt {
         double totalAmount = 0d;
         for (Goods goods : goodsList) {
             double salesTax = getGoodsSalesTax(goods.getTotalAmount());
-            totalAmount += goods.getTotalAmount() +  salesTax;
+            totalAmount += goods.getTotalAmount() + salesTax;
         }
 
-        return  totalAmount;
+        return totalAmount;
     }
 
     private double getDistance(Double totalAmount) {
