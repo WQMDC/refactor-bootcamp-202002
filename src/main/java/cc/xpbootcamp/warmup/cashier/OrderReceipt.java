@@ -1,9 +1,5 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -17,23 +13,23 @@ public class OrderReceipt {
     private static final String DISCOUNT = "折扣";
     private static final String DISCOUNT_DAY = "星期三";
     private OrderInfo orderInfo;
-    private Date receiptDate;
+    private OrderReceiptDate orderReceiptDate;
 
-    public OrderReceipt(OrderInfo orderInfo, Date receiptDate) {
+    public OrderReceipt(OrderInfo orderInfo, OrderReceiptDate orderReceiptDate) {
         this.orderInfo = orderInfo;
-        this.receiptDate = receiptDate;
+        this.orderReceiptDate = orderReceiptDate;
     }
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
         output.append(TITLE)
                 .append("\n")
-                .append(getDateString())
+                .append(orderReceiptDate.getDateString())
                 .append("\n")
                 .append(orderInfo.getGoodsLineString())
                 .append(getTotalSalesTaxString());
 
-        boolean isDiscountDay = getWeek().equals(DISCOUNT_DAY);
+        boolean isDiscountDay = orderReceiptDate.getWeek().equals(DISCOUNT_DAY);
         if (isDiscountDay) {
             output.append(getDiscountString());
         }
@@ -52,26 +48,10 @@ public class OrderReceipt {
         return output;
     }
 
-    private StringBuilder getDateString() {
-        StringBuilder output = new StringBuilder();
-        output.append(getToday())
-                .append("，")
-                .append(getWeek());
-        return output;
-    }
-
-    private String getWeek() {
-        return new SimpleDateFormat("EEEE", Locale.CHINA).format(receiptDate);
-    }
-
-    private String getToday() {
-        return new SimpleDateFormat("yyyy年MM月dd日").format(receiptDate);
-    }
-
     private StringBuilder getTotalAmountString() {
         StringBuilder output = new StringBuilder();
         double totalAmount = orderInfo.getTotalAmount();
-        boolean isDistanceDay = getWeek().equals(DISCOUNT_DAY);
+        boolean isDistanceDay = orderReceiptDate.getWeek().equals(DISCOUNT_DAY);
         totalAmount = isDistanceDay ? totalAmount - orderInfo.getDistance() : totalAmount;
         output.append(TOTAL_AMOUNT)
                 .append("：")
