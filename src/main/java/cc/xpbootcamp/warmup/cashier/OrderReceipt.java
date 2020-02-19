@@ -36,7 +36,7 @@ public class OrderReceipt {
         List<Goods> goodsList = orderInfo.getGoodsList();
         printGoodsInfo(output, goodsList);
 
-        pintTotalSalesTax(output, goodsList);
+        printTotalSalesTax(output, goodsList);
 
         boolean isDiscountDay = getWeek().equals(DISCOUNT_DAY);
         if (isDiscountDay) {
@@ -86,7 +86,7 @@ public class OrderReceipt {
         output.append(TOTAL_AMOUNT + "：").append(String.format("%.2f", totalAmount));
     }
 
-    private void pintTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
+    private void printTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
         double totalSalesTax = getGoodsTotalSalesTax(goodsList);
         output.append(TOTAL_TAX + "：").append(totalSalesTax);
     }
