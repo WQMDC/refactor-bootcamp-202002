@@ -3,6 +3,7 @@ package cc.xpbootcamp.warmup.cashier;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
@@ -57,7 +58,7 @@ public class OrderReceipt {
     }
 
     private String getWeek() {
-        return new SimpleDateFormat("EEEE").format(receiptDate);
+        return new SimpleDateFormat("EEEE", Locale.CHINA).format(receiptDate);
     }
 
     private String getToday() {
