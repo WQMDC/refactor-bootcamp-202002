@@ -18,12 +18,4 @@ public class OrderReceiptDate {
     public String getToday() {
         return new SimpleDateFormat("yyyy年MM月dd日").format(receiptDate);
     }
-
-    public StringBuilder getDateString() {
-        StringBuilder output = new StringBuilder();
-        output.append(getToday())
-                .append("，")
-                .append(getWeek());
-        return output;
-    }
 }

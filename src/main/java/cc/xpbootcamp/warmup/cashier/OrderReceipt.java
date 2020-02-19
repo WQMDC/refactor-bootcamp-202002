@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.util.List;
+
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
  * price and amount. It also calculates the sales tax @ 10% and prints as part
@@ -24,9 +26,9 @@ public class OrderReceipt {
         StringBuilder output = new StringBuilder();
         output.append(TITLE)
                 .append("\n")
-                .append(orderReceiptDate.getDateString())
+                .append(getDateString())
                 .append("\n")
-                .append(orderInfo.getGoodsLineString())
+                .append(getGoodsLineString(orderInfo.getGoodsList()))
                 .append(getTotalSalesTaxString());
 
         boolean isDiscountDay = orderReceiptDate.getWeek().equals(DISCOUNT_DAY);
@@ -70,4 +72,28 @@ public class OrderReceipt {
         return output;
     }
 
+    public StringBuilder getGoodsLineString(List<Goods> goodsList) {
+        StringBuilder output = new StringBuilder();
+        for (Goods goods : goodsList) {
+            output.append(goods.getName())
+                    .append("，")
+                    .append("\t")
+                    .append(goods.getPrice())
+                    .append("x")
+                    .append(goods.getQuantity())
+                    .append("，")
+                    .append("\t")
+                    .append(goods.getTotalAmount())
+                    .append("\n");
+        }
+        return output;
+    }
+
+    public StringBuilder getDateString() {
+        StringBuilder output = new StringBuilder();
+        output.append(orderReceiptDate.getToday())
+                .append("，")
+                .append(orderReceiptDate.getWeek());
+        return output;
+    }
 }

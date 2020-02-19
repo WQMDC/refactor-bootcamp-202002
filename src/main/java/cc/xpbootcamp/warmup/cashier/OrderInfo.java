@@ -9,6 +9,10 @@ public class OrderInfo {
         this.goodsList = goodsList;
     }
 
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
     public double getTotalAmount() {
         double goodsTotalAmount = getGoodsTotalAmount();
 
@@ -40,22 +44,5 @@ public class OrderInfo {
     double getDistance() {
         double totalAmount = getTotalAmount();
         return totalAmount - totalAmount * 0.98;
-    }
-
-    public StringBuilder getGoodsLineString() {
-        StringBuilder output = new StringBuilder();
-        for (Goods goods : goodsList) {
-            output.append(goods.getName())
-                    .append("，")
-                    .append("\t")
-                    .append(goods.getPrice())
-                    .append("x")
-                    .append(goods.getQuantity())
-                    .append("，")
-                    .append("\t")
-                    .append(goods.getTotalAmount())
-                    .append("\n");
-        }
-        return output;
     }
 }
