@@ -2,7 +2,6 @@ package cc.xpbootcamp.warmup.cashier;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -27,33 +26,38 @@ public class OrderReceipt {
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
-
-        output.append(TITLE + "\n");
-
-        printTodayInformation(output);
-        output.append("\n");
-
-        List<Goods> goodsList = orderInfo.getGoodsList();
-        printGoodsInfo(output, goodsList);
-
-        printTotalSalesTax(output, goodsList);
+        output.append(TITLE)
+                .append("\n")
+                .append(getDateString())
+                .append("\n")
+                .append(orderInfo.getGoodsLineString())
+                .append(getTotalSalesTaxString());
 
         boolean isDiscountDay = getWeek().equals(DISCOUNT_DAY);
         if (isDiscountDay) {
-            printDiscount(output, goodsList);
+            output.append(getDiscountString());
         }
 
-        printTotalAmount(output, goodsList);
+        output.append(getTotalAmountString());
         return output.toString();
     }
 
-    private void printDiscount(StringBuilder output, List<Goods> goodsList) {
-        double distance = getDistance(getTotalAmount(goodsList));
-        output.append(DISCOUNT + "：" + String.format("%.2f", distance));
+    private StringBuilder getDiscountString() {
+        StringBuilder output = new StringBuilder();
+        double distance = orderInfo.getDistance();
+        output.append(DISCOUNT)
+                .append("：")
+                .append(String.format("%.2f", distance))
+                .append("\n");
+        return output;
     }
 
-    private void printTodayInformation(StringBuilder output) {
-        output.append(getToday() + "，" + getWeek());
+    private StringBuilder getDateString() {
+        StringBuilder output = new StringBuilder();
+        output.append(getToday())
+                .append("，")
+                .append(getWeek());
+        return output;
     }
 
     private String getWeek() {
@@ -64,56 +68,26 @@ public class OrderReceipt {
         return new SimpleDateFormat("yyyy年MM月dd日").format(receiptDate);
     }
 
-    private void printGoodsInfo(StringBuilder output, List<Goods> goodsList) {
-        for (Goods goods : goodsList) {
-            output.append(goods.getName())
-                    .append("，")
-                    .append("\t")
-                    .append(goods.getPrice())
-                    .append("x")
-                    .append(goods.getQuantity())
-                    .append("，")
-                    .append("\t")
-                    .append(goods.getTotalAmount())
-                    .append("\n");
-        }
-    }
-
-    private void printTotalAmount(StringBuilder output, List<Goods> goodsList) {
-        double totalAmount = getTotalAmount(goodsList);
+    private StringBuilder getTotalAmountString() {
+        StringBuilder output = new StringBuilder();
+        double totalAmount = orderInfo.getTotalAmount();
         boolean isDistanceDay = getWeek().equals(DISCOUNT_DAY);
-        totalAmount = isDistanceDay ? totalAmount - getDistance(totalAmount) : totalAmount;
-        output.append(TOTAL_AMOUNT + "：").append(String.format("%.2f", totalAmount));
+        totalAmount = isDistanceDay ? totalAmount - orderInfo.getDistance() : totalAmount;
+        output.append(TOTAL_AMOUNT)
+                .append("：")
+                .append(String.format("%.2f", totalAmount))
+                .append("\n");
+        return output;
     }
 
-    private void printTotalSalesTax(StringBuilder output, List<Goods> goodsList) {
-        double totalSalesTax = getGoodsTotalSalesTax(goodsList);
-        output.append(TOTAL_TAX + "：").append(totalSalesTax);
+    private StringBuilder getTotalSalesTaxString() {
+        StringBuilder output = new StringBuilder();
+        double totalSalesTax = orderInfo.getTotalSalesTax();
+        output.append(TOTAL_TAX)
+                .append("：")
+                .append(totalSalesTax)
+                .append("\n");
+        return output;
     }
 
-    private double getGoodsTotalSalesTax(List<Goods> goodsList) {
-        double totalSalesTax = 0d;
-        for (Goods goods : goodsList) {
-            totalSalesTax += getGoodsSalesTax(goods.getTotalAmount());
-        }
-        return totalSalesTax;
-    }
-
-    private double getGoodsSalesTax(double totalAmount) {
-        return totalAmount * .10;
-    }
-
-    private double getTotalAmount(List<Goods> goodsList) {
-        double totalAmount = 0d;
-        for (Goods goods : goodsList) {
-            double salesTax = getGoodsSalesTax(goods.getTotalAmount());
-            totalAmount += goods.getTotalAmount() + salesTax;
-        }
-
-        return totalAmount;
-    }
-
-    private double getDistance(Double totalAmount) {
-        return totalAmount - totalAmount * 0.98;
-    }
 }

@@ -25,8 +25,8 @@ class OrderInfoReceiptTest {
 
         assertThat(output, containsString("巧克力，\t21.5x2，\t43.0\n"));
         assertThat(output, containsString("小白菜，\t10.0x1，\t10.0\n"));
-        assertThat(output, containsString("税额：5.3"));
-        assertThat(output, containsString("总价：58.3"));
+        assertThat(output, containsString("税额：5.3\n"));
+        assertThat(output, containsString("总价：58.30\n"));
     }
 
     @Test
@@ -54,8 +54,8 @@ class OrderInfoReceiptTest {
 
         assertThat(output, containsString("巧克力，\t21.5x2，\t43.0\n"));
         assertThat(output, containsString("小白菜，\t10.0x1，\t10.0\n"));
-        assertThat(output, containsString("税额：5.3"));
-        assertThat(output, containsString("折扣：1.17"));
-        assertThat(output, containsString("总价：57.13"));
+        assertThat(output, containsString("税额：5.3\n"));
+        assertThat(output, containsString("折扣：1.17\n"));
+        assertThat(output, containsString("总价：57.13\n"));
     }
 }
