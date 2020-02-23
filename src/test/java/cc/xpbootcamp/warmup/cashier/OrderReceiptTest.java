@@ -11,7 +11,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
-class OrderInfoReceiptTest {
+class OrderReceiptTest {
     @Test
     public void shouldPrintLineItemAndSalesTaxInformation() throws ParseException {
         List<Goods> goods = new ArrayList<Goods>() {{
@@ -22,7 +22,7 @@ class OrderInfoReceiptTest {
         Date today = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-18");
         OrderReceiptDate orderReceiptDate = new OrderReceiptDate(today);
 
-        OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), orderReceiptDate);
+        OrderReceipt receipt = new OrderReceipt(new Order(goods), orderReceiptDate);
 
         String output = receipt.printReceipt();
 
@@ -38,9 +38,9 @@ class OrderInfoReceiptTest {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         OrderReceiptDate orderReceiptDate = new OrderReceiptDate(format.parse("2020-02-18"));
 
-        OrderInfo orderInfo = new OrderInfo(new ArrayList<Goods>());
+        Order order = new Order(new ArrayList<Goods>());
 
-        OrderReceipt orderReceipt = new OrderReceipt(orderInfo, orderReceiptDate);
+        OrderReceipt orderReceipt = new OrderReceipt(order, orderReceiptDate);
 
         String output = orderReceipt.printReceipt();
 
@@ -57,7 +57,7 @@ class OrderInfoReceiptTest {
         Date today = new SimpleDateFormat("yyyy-MM-dd").parse("2020-02-19");
         OrderReceiptDate orderReceiptDate = new OrderReceiptDate(today);
 
-        OrderReceipt receipt = new OrderReceipt(new OrderInfo(goods), orderReceiptDate);
+        OrderReceipt receipt = new OrderReceipt(new Order(goods), orderReceiptDate);
 
         String output = receipt.printReceipt();
 

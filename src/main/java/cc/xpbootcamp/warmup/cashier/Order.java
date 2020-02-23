@@ -2,10 +2,10 @@ package cc.xpbootcamp.warmup.cashier;
 
 import java.util.List;
 
-public class OrderInfo {
+public class Order {
     List<Goods> goodsList;
 
-    public OrderInfo(List<Goods> goodsList) {
+    public Order(List<Goods> goodsList) {
         this.goodsList = goodsList;
     }
 

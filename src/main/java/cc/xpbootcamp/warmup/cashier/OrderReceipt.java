@@ -14,11 +14,11 @@ public class OrderReceipt {
     private static final String TOTAL_TAX = "税额";
     private static final String DISCOUNT = "折扣";
     private static final String DISCOUNT_DAY = "星期三";
-    private OrderInfo orderInfo;
+    private Order order;
     private OrderReceiptDate orderReceiptDate;
 
-    public OrderReceipt(OrderInfo orderInfo, OrderReceiptDate orderReceiptDate) {
-        this.orderInfo = orderInfo;
+    public OrderReceipt(Order order, OrderReceiptDate orderReceiptDate) {
+        this.order = order;
         this.orderReceiptDate = orderReceiptDate;
     }
 
@@ -28,7 +28,7 @@ public class OrderReceipt {
                 .append("\n")
                 .append(getDateString())
                 .append("\n")
-                .append(getGoodsLineString(orderInfo.getGoodsList()))
+                .append(getGoodsLineString(order.getGoodsList()))
                 .append(getTotalSalesTaxString());
 
         boolean isDiscountDay = orderReceiptDate.getWeek().equals(DISCOUNT_DAY);
@@ -42,7 +42,7 @@ public class OrderReceipt {
 
     private StringBuilder getDiscountString() {
         StringBuilder output = new StringBuilder();
-        double distance = orderInfo.getDistance();
+        double distance = order.getDistance();
         output.append(DISCOUNT)
                 .append("：")
                 .append(String.format("%.2f", distance))
@@ -52,9 +52,9 @@ public class OrderReceipt {
 
     private StringBuilder getTotalAmountString() {
         StringBuilder output = new StringBuilder();
-        double totalAmount = orderInfo.getTotalAmount();
+        double totalAmount = order.getTotalAmount();
         boolean isDistanceDay = orderReceiptDate.getWeek().equals(DISCOUNT_DAY);
-        totalAmount = isDistanceDay ? totalAmount - orderInfo.getDistance() : totalAmount;
+        totalAmount = isDistanceDay ? totalAmount - order.getDistance() : totalAmount;
         output.append(TOTAL_AMOUNT)
                 .append("：")
                 .append(String.format("%.2f", totalAmount))
@@ -64,7 +64,7 @@ public class OrderReceipt {
 
     private StringBuilder getTotalSalesTaxString() {
         StringBuilder output = new StringBuilder();
-        double totalSalesTax = orderInfo.getTotalSalesTax();
+        double totalSalesTax = order.getTotalSalesTax();
         output.append(TOTAL_TAX)
                 .append("：")
                 .append(totalSalesTax)
